@@ -19,3 +19,12 @@ def login(form, login_page_url):
     form.select("input")[1]["value"] = input("Please insert password :")
     profiles_page = browser.submit(form, login_page_url)
     return profiles_page
+
+def get_a_element(page, base_url):
+    for link in page.soup.find_all("a"):
+        link_url = {}
+        link_url[link.text] = base_url + link["href"]
+    return link_url
+
+def result(page, links):
+    print(f"Title : {page.soup.title.text}, {links}")
