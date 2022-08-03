@@ -1,13 +1,15 @@
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
+import mechanicalsoup
 
-base_url = "http://olympus.realpython.org"
+browser = mechanicalsoup.Browser()
 
-html_page = urlopen(base_url + "/profiles")
-html_text = html_page.read().decode("utf-8")
+login_url = "http://olympus.realpython.org/login"
+login_page = browser.get(login_url)
+login_html = login_page.soup
 
-soup = BeautifulSoup(html_text, "html.parser")
+form = login_html.form
+form.select("input")[0]["value"] = "zeus"
+form.select("input")[1]["value"] = "ThunderDude"
 
-for link in soup.find_all("a"):
-    link_url = base_url + link["href"]
-    print(link_url)
+profiles_page = browser.submit(form, login_page.url)
+
+print(profiles_page.soup.title,profiles_page.soup.a)
