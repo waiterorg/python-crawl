@@ -26,5 +26,5 @@ def get_a_element(page, base_url):
         link_url[link.text] = base_url + link["href"]
     return link_url
 
-def result(page, links):
+def result(page, links : dict):
     print(f"Title : {page.soup.title.text}, {links}")
